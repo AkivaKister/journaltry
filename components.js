@@ -1,12 +1,89 @@
+// ── Stock ticker ──────────────────────────────────────────────────────────────
+// Symbols to display. Add/remove as desired.
+const TICKER_SYMBOLS = [
+  'SPY','QQQ','DIA',          // major indices
+  'AAPL','MSFT','GOOGL','AMZN','NVDA','TSLA','META',  // megacap tech
+  'JPM','GS','BAC',           // financials
+  'BTC-USD','ETH-USD',        // crypto
+  'GC=F','CL=F',              // gold, oil futures
+];
+
+// Fallback static data shown while/if fetch fails
+const TICKER_FALLBACK = [
+  {s:'SPY',  p:'534.21', c:'+1.23', pct:'+0.23%', up:true},
+  {s:'QQQ',  p:'446.88', c:'+2.10', pct:'+0.47%', up:true},
+  {s:'AAPL', p:'212.49', c:'-0.88', pct:'-0.41%', up:false},
+  {s:'MSFT', p:'415.32', c:'+3.15', pct:'+0.76%', up:true},
+  {s:'NVDA', p:'878.50', c:'+12.40',pct:'+1.43%', up:true},
+  {s:'TSLA', p:'174.60', c:'-3.20', pct:'-1.80%', up:false},
+  {s:'BTC-USD',p:'84200',c:'+1100',pct:'+1.32%',  up:true},
+  {s:'GC=F', p:'3322.10',c:'+8.40',pct:'+0.25%', up:true},
+];
+
+function buildTickerHTML(quotes) {
+  const items = quotes.map(q => {
+    const color = q.up ? '#4ade80' : '#f87171';
+    const arrow = q.up ? '▲' : '▼';
+    return `<span class="tick-item">
+      <span class="tick-sym">${q.s}</span>
+      <span class="tick-price">${q.p}</span>
+      <span class="tick-chg" style="color:${color}">${arrow} ${q.pct}</span>
+    </span><span class="tick-sep">·</span>`;
+  }).join('');
+  // duplicate for seamless loop
+  return `<div class="ticker-inner">${items}${items}</div>`;
+}
+
+async function fetchQuotes() {
+  // Uses Yahoo Finance v8 (public, no key required).
+  // Fetches each symbol; gracefully falls back on error.
+  const symbols = TICKER_SYMBOLS.join(',');
+  const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(symbols)}&fields=symbol,regularMarketPrice,regularMarketChange,regularMarketChangePercent`;
+  try {
+    const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+    if (!res.ok) throw new Error('bad response');
+    const json = await res.json();
+    const results = json?.quoteResponse?.result || [];
+    if (!results.length) throw new Error('empty');
+    return results.map(r => {
+      const chg = r.regularMarketChange ?? 0;
+      const pct = r.regularMarketChangePercent ?? 0;
+      const up = chg >= 0;
+      const price = r.regularMarketPrice?.toLocaleString('en-US', {maximumFractionDigits: 2}) ?? '—';
+      const chgStr = (up ? '+' : '') + chg.toFixed(2);
+      const pctStr = (up ? '+' : '') + pct.toFixed(2) + '%';
+      return { s: r.symbol.replace('-USD','').replace('=F',' Futures'), p: price, c: chgStr, pct: pctStr, up };
+    });
+  } catch {
+    return TICKER_FALLBACK;
+  }
+}
+
+async function initStockTicker() {
+  const bar = document.getElementById('stock-ticker-bar');
+  if (!bar) return;
+  const quotes = await fetchQuotes();
+  bar.innerHTML = buildTickerHTML(quotes);
+  // Kick off animation after content loads
+  const inner = bar.querySelector('.ticker-inner');
+  if (inner) {
+    const totalW = inner.scrollWidth / 2;
+    inner.style.setProperty('--ticker-w', totalW + 'px');
+    inner.classList.add('ticker-running');
+  }
+}
+
 // Call as: renderHeader(root) where root = '../' or '../../' etc.
 function renderHeader(root) {
   root = root || '';
   document.getElementById('site-header').innerHTML = `
     <div class="ticker-bar">
-      <span class="ticker-label">Latest</span>
-      <div class="ticker-track">
-        <span>Bitcoin's volatile spring &nbsp;·&nbsp; MLB money gap debate &nbsp;·&nbsp; Israel's tech sector leads global innovation &nbsp;·&nbsp; Hersh's Fridge opens in Chicago &nbsp;·&nbsp; National debt hits new milestone &nbsp;·&nbsp; AI tutors reshape the classroom &nbsp;·&nbsp; Think Sweet: values over profit &nbsp;·&nbsp;</span>
-        <span aria-hidden="true">Bitcoin's volatile spring &nbsp;·&nbsp; MLB money gap debate &nbsp;·&nbsp; Israel's tech sector leads global innovation &nbsp;·&nbsp; Hersh's Fridge opens in Chicago &nbsp;·&nbsp; National debt hits new milestone &nbsp;·&nbsp; AI tutors reshape the classroom &nbsp;·&nbsp; Think Sweet: values over profit &nbsp;·&nbsp;</span>
+      <span class="ticker-label">Markets</span>
+      <div id="stock-ticker-bar" class="stock-ticker-wrap">
+        <div class="ticker-inner ticker-running">
+          <!-- populated by initStockTicker() -->
+          <span class="tick-item"><span class="tick-sym">Loading…</span></span>
+        </div>
       </div>
     </div>
     <header class="site-header">
@@ -38,6 +115,8 @@ function renderHeader(root) {
       </nav>
     </header>
   `;
+  // Fetch live quotes after header is in the DOM
+  initStockTicker();
 }
 
 function renderFooter(root) {
