@@ -68,20 +68,20 @@ function heroStackItem(a) {
   </article>`;
 }
 
-function mostReadList(articles) {
+function topStoriesList(articles) {
   // Top 5 most recent featured articles
   const items = articles.slice(0, 5).map(a =>
     `<li><a href="articles/${a.file}">${a.title}</a></li>`
   ).join('');
-  return `<ol class="most-read-list">${items}</ol>`;
+  return `<ol class="top-stories-list">${items}</ol>`;
 }
 
 function sidebar(articles) {
   return `
   <aside class="hero-sidebar">
     <div class="sidebar-section">
-      <h3 class="sidebar-heading">Most Read</h3>
-      ${mostReadList(articles)}
+      <h3 class="sidebar-heading">Top Stories</h3>
+      ${topStoriesList(articles)}
     </div>
     <div class="sidebar-divider"></div>
     <div class="sidebar-section">
@@ -218,8 +218,8 @@ async function renderHomepage(containerId) {
     .filter(a => a.featured && a.file !== heroArticle.file)
     .slice(0, 3);
 
-  // Most read sidebar: 5 most recent (excluding hero)
-  const mostRead = all.filter(a => a.file !== heroArticle.file).slice(0, 5);
+  // Top Stories sidebar: 5 most recent (excluding hero)
+  const topStories = all.filter(a => a.file !== heroArticle.file).slice(0, 5);
 
   // Section strips: latest N articles per section (excluding anything already used above)
   const usedFiles = new Set([heroArticle.file, ...heroStack.map(a => a.file)]);
@@ -245,7 +245,7 @@ async function renderHomepage(containerId) {
   html += `<section class="hero-grid">
     ${heroLead(heroArticle)}
     <div class="hero-stack">${heroStack.map(heroStackItem).join('')}</div>
-    ${sidebar(mostRead)}
+    ${sidebar(topStories)}
   </section>`;
 
   // Pop Culture strip (4-col)
