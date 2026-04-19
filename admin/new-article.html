@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>New Article Publisher — The Advantage Journal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --teal:   #0d3535;
+  --teal-m: #1a6b65;
+  --teal-b: #2a9d93;
+  --gold:   #e8b84b;
+  --bg:     #f5f2ed;
+  --paper:  #fffef9;
+  --border: #ddd9d2;
+  --muted:  #7a7068;
+  --text:   #1a1612;
+  --red:    #c8211a;
+  --green:  #15803d;
+  --serif:  "Libre Baskerville", Georgia, serif;
+  --sans:   "DM Sans", system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.6; }
+
+/* ── Header ── */
+.admin-header { background: var(--teal); color: white; padding: 1rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+.admin-header h1 { font-family: var(--serif); font-size: 1.2rem; margin: 0; }
+.admin-header h1 span { color: var(--gold); }
+.admin-header p { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin: 0; }
+
+/* ── Layout ── */
+.admin-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 1300px; margin: 2rem auto; padding: 0 2rem 4rem; }
+@media (max-width: 900px) { .admin-wrap { grid-template-columns: 1fr; } }
+
+/* ── Cards ── */
+.card { background: var(--paper); border: 1px solid var(--border); border-radius: 4px; padding: 1.75rem; }
+.card-title { font-family: var(--serif); font-size: 1rem; font-weight: 700; margin: 0 0 1.25rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--teal); display: flex; align-items: center; gap: 0.5rem; }
+.card-title .icon { font-size: 1rem; }
+
+/* ── Form ── */
+.field { margin-bottom: 1.1rem; }
+.field label { display: block; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 0.35rem; }
+.field input, .field select, .field textarea {
+  width: 100%; padding: 0.55rem 0.75rem; border: 1px solid var(--border);
+  border-radius: 3px; font-family: var(--sans); font-size: 0.9rem;
+  background: white; color: var(--text); outline: none;
+  transition: border-color 0.15s;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--teal-b); }
+.field textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+.field .hint { font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+
+/* Image preview */
+.img-preview { width: 100%; aspect-ratio: 16/9; object-fit: cover; border-radius: 3px; border: 1px solid var(--border); margin-top: 0.5rem; display: none; background: var(--bg); }
+.img-preview.show { display: block; }
+.img-placeholder { width: 100%; aspect-ratio: 16/9; border: 2px dashed var(--border); border-radius: 3px; margin-top: 0.5rem; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.82rem; }
+
+/* Body editor tabs */
+.tab-bar { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+.tab { padding: 0.45rem 1rem; font-size: 0.78rem; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; color: var(--muted); transition: all 0.15s; }
+.tab.active { color: var(--teal); border-color: var(--teal); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+#body-preview { padding: 1rem; border: 1px solid var(--border); border-radius: 3px; min-height: 200px; font-size: 0.92rem; line-height: 1.8; background: white; }
+#body-preview p { margin: 0 0 1rem; }
+#body-preview p:first-child::first-letter { float: left; font-family: var(--serif); font-size: 3rem; line-height: 1; padding-right: 0.2rem; padding-top: 0.1rem; color: var(--teal-m); font-weight: 700; }
+
+/* Disclaimer */
+.disclaimer-toggle { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; margin-bottom: 0.75rem; cursor: pointer; }
+.disclaimer-toggle input { width: auto; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.25rem; border: none; border-radius: 3px; font-family: var(--sans); font-size: 0.82rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; cursor: pointer; transition: background 0.15s; }
+.btn-primary { background: var(--teal); color: white; }
+.btn-primary:hover { background: #0a2828; }
+.btn-secondary { background: var(--gold); color: var(--teal); }
+.btn-secondary:hover { background: #d4a430; }
+.btn-ghost { background: transparent; color: var(--teal-m); border: 1px solid var(--teal-b); }
+.btn-ghost:hover { background: var(--teal-b); color: white; }
+.btn-green { background: var(--green); color: white; }
+.btn-green:hover { background: #166534; }
+.btn-bar { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.25rem; }
+
+/* Output panels */
+.output-section { margin-bottom: 1.5rem; }
+.output-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.4rem; display: flex; justify-content: space-between; align-items: center; }
+.output-label button { padding: 0.2rem 0.6rem; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; border: 1px solid var(--border); border-radius: 2px; background: white; cursor: pointer; color: var(--muted); transition: all 0.15s; }
+.output-label button:hover { background: var(--teal); color: white; border-color: var(--teal); }
+.output-label button.copied { background: var(--green); color: white; border-color: var(--green); }
+pre.output-code { background: #1a2828; color: #a8d8d4; font-size: 0.75rem; line-height: 1.55; padding: 1rem; border-radius: 3px; overflow-x: auto; white-space: pre-wrap; word-break: break-all; max-height: 280px; overflow-y: auto; margin: 0; font-family: "Fira Code", "Cascadia Code", monospace; }
+
+/* Download button */
+.download-wrap { background: linear-gradient(135deg, var(--teal) 0%, #0f4a47 100%); border-radius: 4px; padding: 1.5rem; text-align: center; margin-bottom: 1.5rem; }
+.download-wrap h3 { font-family: var(--serif); color: white; margin: 0 0 0.4rem; font-size: 1rem; }
+.download-wrap p { color: rgba(255,255,255,0.6); font-size: 0.82rem; margin: 0 0 1rem; }
+
+/* Steps */
+.steps { list-style: none; padding: 0; margin: 0; counter-reset: step; }
+.steps li { counter-increment: step; display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.65rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+.steps li:last-child { border-bottom: none; }
+.steps li::before { content: counter(step); display: flex; align-items: center; justify-content: center; width: 22px; height: 22px; background: var(--teal); color: white; border-radius: 50%; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; margin-top: 0.1rem; }
+.steps li strong { display: block; font-weight: 600; margin-bottom: 0.1rem; }
+.steps li span { color: var(--muted); font-size: 0.82rem; }
+.steps li code { background: var(--bg); padding: 0.1rem 0.35rem; border-radius: 2px; font-size: 0.78rem; font-family: monospace; color: var(--teal-m); }
+
+/* Live preview badge */
+.preview-badge { display: inline-block; padding: 0.15rem 0.5rem; font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; border-radius: 1px; }
+.badge-opinions  { background: #7c3aed; color: white; }
+.badge-community { background: #1a6b65; color: white; }
+.badge-business  { background: #b45309; color: white; }
+.badge-israel    { background: #1d4ed8; color: white; }
+.badge-markets   { background: #15803d; color: white; }
+.badge-popculture{ background: #be185d; color: white; }
+
+/* Article mini-preview */
+.article-preview { border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 1.5rem; }
+.ap-img { width: 100%; height: 160px; object-fit: cover; display: block; background: var(--bg); }
+.ap-img.empty { display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 0.82rem; }
+.ap-body { padding: 1rem; }
+.ap-kicker { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--teal-m); margin-bottom: 0.35rem; }
+.ap-title { font-family: var(--serif); font-size: 1rem; font-weight: 700; line-height: 1.3; margin-bottom: 0.35rem; }
+.ap-dek { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.35rem; line-height: 1.5; }
+.ap-meta { font-size: 0.72rem; color: var(--muted); }
+
+/* Toast */
+.toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--teal); color: white; padding: 0.75rem 1.25rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; transform: translateY(100px); opacity: 0; transition: all 0.3s ease; z-index: 999; }
+.toast.show { transform: translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<div class="admin-header">
+  <div>
+    <h1>The <span>Advantage</span> Journal &nbsp;·&nbsp; Article Publisher</h1>
+  </div>
+  <p>Fill in the form → Download the HTML → Drop into <code style="background:rgba(255,255,255,0.1);padding:0.1rem 0.4rem;border-radius:2px">articles/</code> on GitHub</p>
+</div>
+
+<div class="admin-wrap">
+
+  <!-- ── LEFT: Form ── -->
+  <div>
+    <div class="card">
+      <div class="card-title"><span class="icon">✏️</span> Article Details</div>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Section *</label>
+          <select id="section">
+            <option value="opinions">Opinions</option>
+            <option value="pop-culture">Pop Culture</option>
+            <option value="community">Community</option>
+            <option value="israel">Israel</option>
+            <option value="business">Business</option>
+            <option value="markets">Markets &amp; Finance</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Date *</label>
+          <input type="date" id="date" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Headline *</label>
+        <input type="text" id="title" placeholder="e.g. The Rise of Bitcoin and Its Peak" />
+      </div>
+
+      <div class="field">
+        <label>Subheadline / Dek *</label>
+        <input type="text" id="dek" placeholder="One sentence that draws the reader in" />
+      </div>
+
+      <div class="field">
+        <label>Author *</label>
+        <input type="text" id="author" placeholder="e.g. By Sarah Cohen" />
+      </div>
+
+      <div class="field">
+        <label>Hero Image URL *</label>
+        <input type="url" id="img" placeholder="https://…" oninput="previewImg(this.value)" />
+        <div class="hint">Paste any image URL — Squarespace CDN, Unsplash, etc.</div>
+        <img id="img-preview" class="img-preview" />
+        <div id="img-placeholder" class="img-placeholder">Image preview will appear here</div>
+      </div>
+
+      <div class="field">
+        <label>Filename *</label>
+        <input type="text" id="filename" placeholder="e.g. my-article-title" oninput="sanitizeFilename(this)" />
+        <div class="hint">Lowercase, hyphens only, no spaces. File will save as <strong id="filename-display">my-article-title.html</strong></div>
+      </div>
+
+      <div class="field">
+        <label>Article Body *</label>
+        <div class="tab-bar">
+          <div class="tab active" onclick="switchTab('write')">Write</div>
+          <div class="tab" onclick="switchTab('preview')">Preview</div>
+        </div>
+        <div id="tab-write" class="tab-panel active">
+          <textarea id="body" rows="12" placeholder="Paste or type your article here. Separate paragraphs with a blank line.&#10;&#10;Like this paragraph.&#10;&#10;And this paragraph." oninput="updatePreview()"></textarea>
+          <div class="hint">Separate paragraphs with a blank line. Bold: **text** &nbsp; Italic: _text_</div>
+        </div>
+        <div id="tab-preview" class="tab-panel">
+          <div id="body-preview"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="disclaimer-toggle">
+          <input type="checkbox" id="has-disclaimer" onchange="toggleDisclaimer()" />
+          Include financial/legal disclaimer
+        </label>
+        <textarea id="disclaimer" rows="2" style="display:none" placeholder="e.g. I am not a certified financial advisor…"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Previous Article (optional)</label>
+        <input type="text" id="prev-title" placeholder="Previous article headline" />
+        <input type="text" id="prev-file" placeholder="previous-article.html" style="margin-top:0.4rem" />
+      </div>
+
+      <div class="field">
+        <label>Next Article (optional)</label>
+        <input type="text" id="next-title" placeholder="Next article headline" />
+        <input type="text" id="next-file" placeholder="next-article.html" style="margin-top:0.4rem" />
+      </div>
+
+      <div class="btn-bar">
+        <button class="btn btn-primary" onclick="generateAndDownload()">⬇ Generate &amp; Download HTML</button>
+        <button class="btn btn-ghost" onclick="clearForm()">Clear Form</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── RIGHT: Preview + Instructions ── -->
+  <div>
+
+    <!-- Live preview card -->
+    <div class="card" style="margin-bottom:1.5rem">
+      <div class="card-title"><span class="icon">👁</span> Live Preview</div>
+      <div class="article-preview">
+        <div id="ap-img-wrap">
+          <div class="ap-img empty" id="ap-img-empty">Hero image preview</div>
+          <img id="ap-img" class="ap-img" style="display:none" />
+        </div>
+        <div class="ap-body">
+          <div id="ap-badge" class="preview-badge badge-opinions">Opinions</div>
+          <div class="ap-title" id="ap-title">Your headline will appear here</div>
+          <div class="ap-dek" id="ap-dek">Your subheadline will appear here.</div>
+          <div class="ap-meta" id="ap-meta">By Author · Date · Section</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Download + steps -->
+    <div class="card" style="margin-bottom:1.5rem">
+      <div class="card-title"><span class="icon">🚀</span> How to Publish</div>
+      <ol class="steps">
+        <li>
+          <div><strong>Fill in the form on the left</strong><span>All fields marked * are required.</span></div>
+        </li>
+        <li>
+          <div><strong>Click "Generate &amp; Download HTML"</strong><span>Your browser will download the ready-to-use article file.</span></div>
+        </li>
+        <li>
+          <div><strong>Drop the file into <code>articles/</code></strong><span>Drag it into your GitHub repo's <code>journaltry/articles/</code> folder via GitHub Desktop or the web interface.</span></div>
+        </li>
+        <li>
+          <div><strong>Add a card to the section index</strong><span>Open <code>sections/[section]/index.html</code> and paste the card snippet below into the <code>.articles-grid</code> div.</span></div>
+        </li>
+        <li>
+          <div><strong>Commit &amp; push</strong><span>That's it — the article is live.</span></div>
+        </li>
+      </ol>
+    </div>
+
+    <!-- JSON entry -->
+    <div class="card" style="margin-bottom:1.5rem">
+      <div class="card-title"><span class="icon">📄</span> articles.json Entry</div>
+      <p style="font-size:0.85rem;color:var(--muted);margin:0 0 1rem">
+        Add this entry to the <strong>top</strong> of the <code style="background:var(--bg);padding:0.1rem 0.35rem;border-radius:2px;font-size:0.8rem">articles</code> array in <code style="background:var(--bg);padding:0.1rem 0.35rem;border-radius:2px;font-size:0.8rem">articles.json</code>.
+        The homepage will automatically pick up the new article.
+      </p>
+      <div style="background:#f0fdf4;border-left:3px solid #15803d;padding:0.6rem 0.85rem;font-size:0.8rem;margin-bottom:1rem;border-radius:0 2px 2px 0">
+        <strong style="color:#15803d">Set "hero": true</strong> to make it the big lead story. Set <strong style="color:#15803d">"featured": true</strong> to show it in the hero stack.
+      </div>
+      <div class="output-section">
+        <div class="output-label">
+          JSON
+          <button id="copy-json-btn" onclick="copyOutput('json-output', 'copy-json-btn')">Copy</button>
+        </div>
+        <pre class="output-code" id="json-output">{ /* fill in the form to generate */ }</pre>
+      </div>
+    </div>
+
+    <!-- Section card snippet -->
+    <div class="card">
+      <div class="card-title"><span class="icon">📋</span> Section Index Card Snippet</div>
+      <p style="font-size:0.85rem;color:var(--muted);margin:0 0 1rem">Only needed if you want to manually control the section index page. The homepage updates automatically from the JSON above.</p>
+      <div class="output-section">
+        <div class="output-label">
+          Card HTML
+          <button id="copy-card-btn" onclick="copyOutput('card-output', 'copy-card-btn')">Copy</button>
+        </div>
+        <pre class="output-code" id="card-output"><!-- fill in the form to generate --></pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Helpers ──────────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+
+const SECTION_LABELS = {
+  'opinions':    'Opinions',
+  'pop-culture': 'Pop Culture',
+  'community':   'Community',
+  'israel':      'Israel',
+  'business':    'Business',
+  'markets':     'Markets & Finance',
+};
+
+const SECTION_BADGES = {
+  'opinions':    'badge-opinions',
+  'pop-culture': 'badge-popculture',
+  'community':   'badge-community',
+  'israel':      'badge-israel',
+  'business':    'badge-business',
+  'markets':     'badge-markets',
+};
+
+function showToast(msg) {
+  const t = $('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function sanitizeFilename(input) {
+  const clean = input.value
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+  input.value = clean;
+  $('filename-display').textContent = (clean || 'my-article-title') + '.html';
+  updateCardSnippet();
+}
+
+function previewImg(url) {
+  const img = $('img-preview');
+  const ph  = $('img-placeholder');
+  const apImg      = $('ap-img');
+  const apImgEmpty = $('ap-img-empty');
+  if (url) {
+    img.src = url;
+    img.classList.add('show');
+    ph.style.display = 'none';
+    apImg.src = url;
+    apImg.style.display = 'block';
+    apImgEmpty.style.display = 'none';
+  } else {
+    img.classList.remove('show');
+    ph.style.display = 'flex';
+    apImg.style.display = 'none';
+    apImgEmpty.style.display = 'flex';
+  }
+}
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.textContent.toLowerCase() === tab));
+  $('tab-write').classList.toggle('active', tab === 'write');
+  $('tab-preview').classList.toggle('active', tab === 'preview');
+  if (tab === 'preview') updatePreview();
+}
+
+function updatePreview() {
+  const raw = $('body').value;
+  const html = parseParagraphs(raw);
+  $('body-preview').innerHTML = html;
+}
+
+function parseParagraphs(text) {
+  return text
+    .split(/\n\n+/)
+    .filter(p => p.trim())
+    .map(p => {
+      let h = p.trim()
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/_(.+?)_/g, '<em>$1</em>');
+      return `<p>${h}</p>`;
+    })
+    .join('\n');
+}
+
+function toggleDisclaimer() {
+  $('disclaimer').style.display = $('has-disclaimer').checked ? 'block' : 'none';
+}
+
+// ── Live preview sync ─────────────────────────────────────────────────────────
+function syncPreview() {
+  const section  = $('section').value;
+  const title    = $('title').value  || 'Your headline will appear here';
+  const dek      = $('dek').value    || 'Your subheadline will appear here.';
+  const author   = $('author').value || 'By Author';
+  const date     = $('date').value   ? formatDate($('date').value) : 'Date';
+  const label    = SECTION_LABELS[section];
+  const badge    = SECTION_BADGES[section];
+
+  $('ap-badge').className = `preview-badge ${badge}`;
+  $('ap-badge').textContent = label;
+  $('ap-title').textContent = title;
+  $('ap-dek').textContent   = dek;
+  $('ap-meta').textContent  = `${author} · ${date} · ${label}`;
+
+  updateCardSnippet();
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso + 'T12:00:00');
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function formatDateLong(iso) {
+  if (!iso) return '';
+  const d = new Date(iso + 'T12:00:00');
+  return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+}
+
+// ── Card snippet + JSON entry ─────────────────────────────────────────────────
+function updateCardSnippet() {
+  const section  = $('section').value;
+  const label    = SECTION_LABELS[section];
+  const badge    = SECTION_BADGES[section];
+  const title    = $('title').value  || 'Article Title';
+  const dek      = $('dek').value    || '';
+  const author   = $('author').value || '';
+  const date     = formatDate($('date').value);
+  const dateIso  = $('date').value   || new Date().toISOString().split('T')[0];
+  const img      = $('img').value    || '';
+  const file     = ($('filename').value || 'article') + '.html';
+  const meta     = [author, date].filter(Boolean).join(' · ');
+
+  // Card HTML snippet
+  const snippet = `<article class="article-card">
+  <a href="../../articles/${file}">
+    <img src="${img}" alt="${escapeHtml(title)}" />
+    <div class="badge ${badge}">${label}</div>
+    <h2>${escapeHtml(title)}</h2>
+    <p>${escapeHtml(dek)}</p>
+    <span class="card-meta">${escapeHtml(meta)}</span>
+  </a>
+</article>`;
+  $('card-output').textContent = snippet;
+
+  // JSON entry for articles.json
+  const jsonEntry = {
+    file,
+    section,
+    title: title,
+    dek:   dek,
+    author: author,
+    date:  dateIso,
+    img:   img,
+    featured: false,
+    hero:     false
+  };
+  $('json-output').textContent = JSON.stringify(jsonEntry, null, 2) + ',';
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Generate HTML ─────────────────────────────────────────────────────────────
+function generateAndDownload() {
+  const section   = $('section').value;
+  const label     = SECTION_LABELS[section];
+  const badge     = SECTION_BADGES[section];
+  const title     = $('title').value.trim();
+  const dek       = $('dek').value.trim();
+  const author    = $('author').value.trim();
+  const dateVal   = $('date').value;
+  const img       = $('img').value.trim();
+  const bodyRaw   = $('body').value.trim();
+  const filename  = ($('filename').value.trim() || 'article') + '.html';
+  const prevTitle = $('prev-title').value.trim();
+  const prevFile  = $('prev-file').value.trim();
+  const nextTitle = $('next-title').value.trim();
+  const nextFile  = $('next-file').value.trim();
+  const hasDisc   = $('has-disclaimer').checked;
+  const discText  = $('disclaimer').value.trim();
+
+  // Validation
+  if (!title)   { alert('Please enter a headline.'); return; }
+  if (!dek)     { alert('Please enter a subheadline.'); return; }
+  if (!author)  { alert('Please enter an author.'); return; }
+  if (!dateVal) { alert('Please enter a date.'); return; }
+  if (!img)     { alert('Please enter a hero image URL.'); return; }
+  if (!bodyRaw) { alert('Please enter the article body.'); return; }
+
+  const dateFormatted = formatDateLong(dateVal);
+  const bodyHtml = parseParagraphs(bodyRaw);
+  const discHtml = (hasDisc && discText)
+    ? `<p class="article-disclaimer">${escapeHtml(discText)}</p>\n    ` : '';
+
+  const prevHtml = prevTitle && prevFile
+    ? `<a href="../articles/${prevFile}">← ${escapeHtml(prevTitle)}</a>`
+    : `<span></span>`;
+  const nextHtml = nextTitle && nextFile
+    ? `<a href="../articles/${nextFile}">${escapeHtml(nextTitle)} →</a>`
+    : `<span></span>`;
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>${escapeHtml(title)} — The Advantage Journal</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+</head>
+<body>
+<div id="site-header"></div>
+<main>
+<div class="page-wrap" style="padding-top:2rem">
+  <a href="../sections/${section}/index.html" class="back-to-section">← ${label}</a>
+</div>
+<article class="article-page">
+  <span class="article-kicker">${label}</span>
+  <h1 class="article-title">${escapeHtml(title)}</h1>
+  <p class="article-dek">${escapeHtml(dek)}</p>
+  <div class="article-meta">
+    <span>${escapeHtml(author)}</span>
+    <span class="article-meta-dot">·</span>
+    <span>${dateFormatted}</span>
+    <span class="article-meta-dot">·</span>
+    <span><a href="../sections/${section}/index.html">${label}</a></span>
+  </div>
+  <img class="article-hero-img" src="${img}" alt="${escapeHtml(title)}" />
+  <div class="article-body">
+    ${discHtml}${bodyHtml}
+  </div>
+  <nav class="article-nav">
+    ${prevHtml}
+    ${nextHtml}
+  </nav>
+</article>
+</main>
+<div id="site-footer"></div>
+<script src="../components.js"><\/script>
+<script src="../main.js"><\/script>
+<script>renderHeader('../'); renderFooter('../');<\/script>
+</body>
+</html>`;
+
+  // Trigger download
+  const blob = new Blob([html], { type: 'text/html' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+
+  showToast(`✓ Downloaded ${filename}`);
+  updateCardSnippet();
+}
+
+function copyOutput(id, btnId) {
+  const text = $(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = $(btnId);
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+function clearForm() {
+  if (!confirm('Clear all fields?')) return;
+  ['title','dek','author','date','img','body','filename','prev-title','prev-file','next-title','next-file','disclaimer'].forEach(id => $(id).value = '');
+  $('section').value = 'opinions';
+  $('has-disclaimer').checked = false;
+  $('disclaimer').style.display = 'none';
+  previewImg('');
+  syncPreview();
+  $('filename-display').textContent = 'my-article-title.html';
+}
+
+// ── Wire up live sync ─────────────────────────────────────────────────────────
+['title','dek','author','date','img','section'].forEach(id => {
+  $(id).addEventListener('input', syncPreview);
+  $(id).addEventListener('change', syncPreview);
+});
+$('filename').addEventListener('input', updateCardSnippet);
+
+// Set today as default date
+$('date').value = new Date().toISOString().split('T')[0];
+syncPreview();
+</script>
+</body>
+</html>

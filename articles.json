@@ -1,0 +1,213 @@
+{
+  "articles": [
+    {
+      "file": "amelia-ai.html",
+      "section": "opinions",
+      "title": "Beyond the Meme: The Amelia Controversy and the Future of AI",
+      "dek": "When a British AI schoolgirl sparked memes and outrage, the real story wasn't Amelia—it was our fear of AI itself.",
+      "author": "By Lihi Maine",
+      "date": "2026-02-23",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1771875863273-BO0Y4DUQ2NS66UHB7QHJ/ai-girl-2.jpg",
+      "featured": true,
+      "hero": true
+    },
+    {
+      "file": "synagogue-fire.html",
+      "section": "community",
+      "title": "REKINDLING HOPE: Painting Survives Devastating Synagogue Fire",
+      "dek": "A painting emerges unscathed to become a symbol of faith and resilience.",
+      "author": "The Advantage",
+      "date": "2026-02-23",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1771879434912-S3LE0G97FL15PBJNJZON/IMG_5680.jpeg",
+      "featured": true,
+      "hero": false
+    },
+    {
+      "file": "think-sweet.html",
+      "section": "business",
+      "title": "Think Sweet: Where Community Meets Purpose",
+      "dek": "Jack Hazan chose values over profit — and customers keep coming back.",
+      "author": "By Lihi Maine",
+      "date": "2026-01-25",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1769373006266-BMVEWL7SIERT8OCQVTOE/IMG_9113_1744128367.jpg",
+      "featured": true,
+      "hero": false
+    },
+    {
+      "file": "bitcoin.html",
+      "section": "pop-culture",
+      "title": "The Rise of Bitcoin and Its Peak",
+      "dek": "From $0 to $126k — how Bitcoin reshaped how a generation thinks about money.",
+      "author": "By Nathan Kohl",
+      "date": "2026-04-14",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776195115546-FA8ND82RR3EDILOEPYAR/Screenshot+2026-04-14+153147.png",
+      "featured": true,
+      "hero": false
+    },
+    {
+      "file": "sephora-kids.html",
+      "section": "pop-culture",
+      "title": "How the \"Sephora Kids\" Trend Became a Costly Business Problem",
+      "dek": "Virality isn't always free publicity — sometimes it's a financial and reputational liability.",
+      "author": "By Nathan Kohl",
+      "date": "2026-01-26",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1769445365892-QFVZCXYB5MCUVCLQCRMQ/unsplash-image-fuEtUkDhbtA.jpg",
+      "featured": false,
+      "hero": false
+    },
+    {
+      "file": "tutors-ai.html",
+      "section": "pop-culture",
+      "title": "Tutors & AI: The New Academic Advantage",
+      "dek": "AI tutors are turning elite, personalized academic help into something free and available to anyone.",
+      "author": "By Nathan Kohl",
+      "date": "2026-01-25",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1769381541003-DR8969MP5DFXGST3JUQY/unsplash-image-nGoCBxiaRO0.jpg",
+      "featured": false,
+      "hero": false
+    },
+    {
+      "file": "mlb-money.html",
+      "section": "pop-culture",
+      "title": "The MLB Money Gap: Why Big-Spending Teams Always Win",
+      "dek": "Spending gaps of over $230M are deciding championships more than skill or strategy.",
+      "author": "The Advantage",
+      "date": "2026-01-25",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1769378212969-YA1SI24BUIGG8AXSMZ5U/CA322B31-CB06-403A-8818-3AFFCAFC7AC1-900x600.webp",
+      "featured": false,
+      "hero": false
+    },
+    {
+      "file": "music-algorithms.html",
+      "section": "pop-culture",
+      "title": "When Music Lost Its Soul: How the Industry Traded Artists for Algorithms",
+      "dek": "Once, artists were nurtured and their imperfections were part of the magic.",
+      "author": "The Advantage",
+      "date": "2026-01-25",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1769374667420-VHTJ0E3IF6US5ZP1TJL3/bb27-2017-WIM-timeline-a-billboard-1548.jpg.webp",
+      "featured": false,
+      "hero": false
+    },
+    {
+      "file": "philanthropist.html",
+      "section": "business",
+      "title": "Everyone's a Philanthropist — You Just Don't Realize It Yet",
+      "dek": "Most people disqualify themselves from philanthropy. Kary Alterman explains why that's wrong.",
+      "author": "By Lihi Maine",
+      "date": "2026-02-24",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1771874811898-FI2T59ZDUXLWI3LMC0JW/istockphoto-1486910056-612x612.jpg",
+      "featured": false,
+      "hero": false
+    },
+    {
+      "file": "fast-leadership.html",
+      "section": "business",
+      "title": "The Fallacy of Fast Leadership",
+      "dek": "In a world obsessed with startups, Dr. Magerman says: learn to serve before you try to lead.",
+      "author": "By Lihi Maine",
+      "date": "2026-02-23",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1771874014099-VACLBKKESF2JMVULKN86/ChatGPT+Image+Feb+23%2C+2026+at+02_13_25+PM.png",
+      "featured": false,
+      "hero": false
+    },
+    {
+      "file": "jewish-businesses.html",
+      "section": "business",
+      "title": "Jewish Businesses Adjust as Global Tensions Reshape the Market",
+      "dek": "Adaptability and resilience aren't optional — they're essential.",
+      "author": "The Advantage",
+      "date": "2026-01-25",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1769372698314-5E5I1OJPZ87TYH2OZQUF/adapting_to_market_changes_1200.jpeg",
+      "featured": false,
+      "hero": false
+    },
+    {
+      "file": "randolph-hills.html",
+      "section": "business",
+      "title": "Inside Randolph Hills: Community, Kosher Commerce, and Legacy",
+      "dek": "A shopping center where entrepreneurship and community service are one and the same.",
+      "author": "The Advantage",
+      "date": "2026-01-25",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1769372194984-NJ2WNNI93YSHASR5B2DD/images-2.jpeg",
+      "featured": false,
+      "hero": false
+    },
+    {
+      "file": "prices.html",
+      "section": "business",
+      "title": "The Price You See Isn't Always the Price You Pay",
+      "dek": "How taxes shape shopping across borders — and what it tells us about consumer behavior.",
+      "author": "The Advantage",
+      "date": "2026-01-25",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1769372194984-NJ2WNNI93YSHASR5B2DD/images-2.jpeg",
+      "featured": false,
+      "hero": false
+    },
+    {
+      "file": "national-debt.html",
+      "section": "markets",
+      "title": "The National Debt Is a Game Everyone Plays, But No One Wins",
+      "dek": "Borrowing rewards the present but burdens the future. Without new guardrails, the scoreboard keeps climbing.",
+      "author": "By Cayla Ashurov",
+      "date": "2026-02-23",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1771877348937-ABRK1ZJ8PC6CPXZ6NXQ6/Gemini_Generated_Image_tztv5qtztv5qtztv.png",
+      "featured": false,
+      "hero": false
+    },
+    {
+      "file": "pocket-change.html",
+      "section": "markets",
+      "title": "From Pocket Change to Paychecks: Mastering Money Early",
+      "dek": "Managing your money isn't easy, but it's far better to make it a habit now.",
+      "author": "By Ahuva Chaitovsky",
+      "date": "2026-01-25",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1769377576953-IPBMWWEBZSQPZEH7DCRB/what-is-the-golden-rule-of-saving-money-1024x576.png.webp",
+      "featured": false,
+      "hero": false
+    },
+    {
+      "file": "price-vs-value.html",
+      "section": "markets",
+      "title": "Why Chasing Stocks You Like Won't Make You Rich",
+      "dek": "Investing based on brand names or personal tastes is not the best way to build long-term wealth.",
+      "author": "By Kayla Barzideh",
+      "date": "2026-01-25",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1769376739761-9ZWUGA9S4QQPQMNTXVD2/4d33f2702e9d444794fe2e02a3fe410f.webp",
+      "featured": false,
+      "hero": false
+    },
+    {
+      "file": "hershs-homecoming.html",
+      "section": "community",
+      "title": "Hersh's Homecoming: How a Teen's Legacy Is Nourishing a Community",
+      "dek": "The first kosher community fridge in the U.S. — open to anyone, built to honor a life cut short.",
+      "author": "The Advantage",
+      "date": "2026-01-25",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1769375946295-P9KR6Z4XU5BZOI4LIAS7/AP23289640278526.jpg",
+      "featured": false,
+      "hero": false
+    },
+    {
+      "file": "israel-tech.html",
+      "section": "israel",
+      "title": "The World's Most Unlikely Tech Superpower",
+      "dek": "At just over 70 years old, Israel has transformed from a fledgling state into a global innovation powerhouse.",
+      "author": "The Advantage",
+      "date": "2026-01-26",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1769449326852-2PVWGNH0BNPWNA5IT7IJ/israel-flag-military-cyberattacks.jpg",
+      "featured": true,
+      "hero": false
+    },
+    {
+      "file": "productivity.html",
+      "section": "opinions",
+      "title": "The Real Productivity Tool Isn't AI. It's Self-Awareness.",
+      "dek": "Your brain works in patterns, not deadlines. Build momentum with small wins, then tackle the big stuff.",
+      "author": "By Devorah Noorani",
+      "date": "2026-01-25",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1769373279876-9UE5LF1EWKSXW53LRCU0/images.jpeg",
+      "featured": false,
+      "hero": false
+    }
+  ]
+}
