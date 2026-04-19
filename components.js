@@ -1,75 +1,97 @@
 // ── Stock ticker ──────────────────────────────────────────────────────────────
 // Symbols to display. Add/remove as desired.
 const TICKER_SYMBOLS = [
-  'SPY','QQQ','DIA',          // major indices
-  'AAPL','MSFT','GOOGL','AMZN','NVDA','TSLA','META',  // megacap tech
-  'JPM','GS','BAC',           // financials
-  'BTC-USD','ETH-USD',        // crypto
-  'GC=F','CL=F',              // gold, oil futures
+  'SPY','QQQ','DIA',
+  'AAPL','MSFT','GOOGL','AMZN','NVDA','TSLA','META',
+  'JPM','GS','BAC',
+  'BTC-USD','ETH-USD',
+  'GC=F','CL=F',
 ];
 
-// Fallback static data shown while/if fetch fails
+// Shown immediately on every load — replaced with live data if fetch succeeds
 const TICKER_FALLBACK = [
-  {s:'SPY',  p:'534.21', c:'+1.23', pct:'+0.23%', up:true},
-  {s:'QQQ',  p:'446.88', c:'+2.10', pct:'+0.47%', up:true},
-  {s:'AAPL', p:'212.49', c:'-0.88', pct:'-0.41%', up:false},
-  {s:'MSFT', p:'415.32', c:'+3.15', pct:'+0.76%', up:true},
-  {s:'NVDA', p:'878.50', c:'+12.40',pct:'+1.43%', up:true},
-  {s:'TSLA', p:'174.60', c:'-3.20', pct:'-1.80%', up:false},
-  {s:'BTC-USD',p:'84200',c:'+1100',pct:'+1.32%',  up:true},
-  {s:'GC=F', p:'3322.10',c:'+8.40',pct:'+0.25%', up:true},
+  {s:'SPY',   p:'534.21',  pct:'+0.23%', up:true},
+  {s:'QQQ',   p:'446.88',  pct:'+0.47%', up:true},
+  {s:'DIA',   p:'397.55',  pct:'+0.18%', up:true},
+  {s:'AAPL',  p:'212.49',  pct:'-0.41%', up:false},
+  {s:'MSFT',  p:'415.32',  pct:'+0.76%', up:true},
+  {s:'GOOGL', p:'163.20',  pct:'+0.55%', up:true},
+  {s:'NVDA',  p:'878.50',  pct:'+1.43%', up:true},
+  {s:'TSLA',  p:'174.60',  pct:'-1.80%', up:false},
+  {s:'META',  p:'512.30',  pct:'+0.92%', up:true},
+  {s:'JPM',   p:'198.44',  pct:'+0.33%', up:true},
+  {s:'BTC',   p:'84,200',  pct:'+1.32%', up:true},
+  {s:'ETH',   p:'3,210',   pct:'-0.65%', up:false},
+  {s:'GOLD',  p:'3,322',   pct:'+0.25%', up:true},
+  {s:'OIL',   p:'82.40',   pct:'-0.88%', up:false},
 ];
 
-function buildTickerHTML(quotes) {
-  const items = quotes.map(q => {
+function buildTickerItems(quotes) {
+  return quotes.map(q => {
     const color = q.up ? '#4ade80' : '#f87171';
     const arrow = q.up ? '▲' : '▼';
-    return `<span class="tick-item">
-      <span class="tick-sym">${q.s}</span>
-      <span class="tick-price">${q.p}</span>
-      <span class="tick-chg" style="color:${color}">${arrow} ${q.pct}</span>
-    </span><span class="tick-sep">·</span>`;
+    return `<span class="tick-item"><span class="tick-sym">${q.s}</span><span class="tick-price">${q.p}</span><span class="tick-chg" style="color:${color}">${arrow}&nbsp;${q.pct}</span></span><span class="tick-sep">·</span>`;
   }).join('');
-  // duplicate for seamless loop
-  return `<div class="ticker-inner">${items}${items}</div>`;
+}
+
+function setTickerContent(quotes) {
+  const bar = document.getElementById('stock-ticker-bar');
+  if (!bar) return;
+  // Build items, duplicated for seamless infinite loop
+  const items = buildTickerItems(quotes);
+  bar.innerHTML = `<div class="ticker-inner" id="ticker-inner">${items}${items}</div>`;
+  // Start animation after a short delay so the browser has painted the content
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const inner = document.getElementById('ticker-inner');
+      if (!inner) return;
+      // Use scrollWidth/2 as the translate distance (one full copy)
+      const w = inner.scrollWidth / 2;
+      inner.style.setProperty('--ticker-w', w + 'px');
+      inner.classList.add('ticker-running');
+    });
+  });
 }
 
 async function fetchQuotes() {
-  // Uses Yahoo Finance v8 (public, no key required).
-  // Fetches each symbol; gracefully falls back on error.
   const symbols = TICKER_SYMBOLS.join(',');
-  const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(symbols)}&fields=symbol,regularMarketPrice,regularMarketChange,regularMarketChangePercent`;
+  // corsproxy.io wraps the Yahoo Finance request to bypass browser CORS restrictions
+  const yf = `https://query1.finance.yahoo.com/v8/finance/spark?symbols=${encodeURIComponent(symbols)}&range=1d&interval=1d`;
+  const proxied = `https://corsproxy.io/?${encodeURIComponent(yf)}`;
   try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
-    if (!res.ok) throw new Error('bad response');
+    const res = await fetch(proxied, { signal: AbortSignal.timeout(6000) });
+    if (!res.ok) throw new Error('bad status');
     const json = await res.json();
-    const results = json?.quoteResponse?.result || [];
-    if (!results.length) throw new Error('empty');
-    return results.map(r => {
-      const chg = r.regularMarketChange ?? 0;
-      const pct = r.regularMarketChangePercent ?? 0;
-      const up = chg >= 0;
-      const price = r.regularMarketPrice?.toLocaleString('en-US', {maximumFractionDigits: 2}) ?? '—';
-      const chgStr = (up ? '+' : '') + chg.toFixed(2);
+    const spark = json?.spark?.result || [];
+    if (!spark.length) throw new Error('empty');
+    return spark.map(r => {
+      const sym   = r.symbol || '';
+      const resp  = r.response?.[0] || {};
+      const meta  = resp.meta || {};
+      const price = meta.regularMarketPrice ?? 0;
+      const prev  = meta.chartPreviousClose ?? price;
+      const chg   = price - prev;
+      const pct   = prev ? (chg / prev) * 100 : 0;
+      const up    = chg >= 0;
+      const label = sym.replace('-USD','').replace('=F','');
+      const priceStr = price >= 1000
+        ? price.toLocaleString('en-US', {maximumFractionDigits: 0})
+        : price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
       const pctStr = (up ? '+' : '') + pct.toFixed(2) + '%';
-      return { s: r.symbol.replace('-USD','').replace('=F',' Futures'), p: price, c: chgStr, pct: pctStr, up };
-    });
+      return { s: label, p: priceStr, pct: pctStr, up };
+    }).filter(q => q.p !== '0.00');
   } catch {
-    return TICKER_FALLBACK;
+    return null; // signal that fallback should stay
   }
 }
 
 async function initStockTicker() {
-  const bar = document.getElementById('stock-ticker-bar');
-  if (!bar) return;
-  const quotes = await fetchQuotes();
-  bar.innerHTML = buildTickerHTML(quotes);
-  // Kick off animation after content loads
-  const inner = bar.querySelector('.ticker-inner');
-  if (inner) {
-    const totalW = inner.scrollWidth / 2;
-    inner.style.setProperty('--ticker-w', totalW + 'px');
-    inner.classList.add('ticker-running');
+  // Show fallback immediately so ticker is never blank
+  setTickerContent(TICKER_FALLBACK);
+  // Then try to fetch live data and swap it in
+  const live = await fetchQuotes();
+  if (live && live.length) {
+    setTickerContent(live);
   }
 }
 
