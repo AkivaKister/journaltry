@@ -1,6 +1,39 @@
 {
   "articles": [
     {
+      "file": "dan-advice.html",
+      "section": "markets",
+      "title": "Dan Ariely Has Proof Your Brain Is Lying to You About Money",
+      "dek": "You are the greatest asset you have",
+      "author": "By Deborah Noorani",
+      "date": "2026-23-23",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776821442834-IDKFWBJ0RQ2XC96Y50IU/Dan%2BArielypng.png.webp?format=1500w",
+      "featured": true,
+      "hero": true
+    },
+    {
+      "file": "lihi-lapid.html",
+      "section": "opinions",
+      "title": "Lihi Lapid and the Case for Slower, More Human Writing",
+      "dek": "Human emotion, empathy, and connection through the eyes of Mrs. Lapid",
+      "author": "By Lihi Maine",
+      "date": "2026-04-23",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776615449453-F46IUH9N44E9FP0OL5KY/Lihi_Lapid.jpeg?format=2500w",
+      "featured": true,
+      "hero": false
+    },
+    {
+      "file": "unpackeds-message.html",
+      "section": "opinions",
+      "title": "Know Your Story",
+      "dek": "Unpacked’s Message for the Youth of Tomorrow",
+      "author": "By Lihi Maine and Leah Barzideh",
+      "date": "2026-04-23",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776616714839-1Z0W9EYM5JSMNN7IYCJP/unpacked_for_educators_logo.jpeg?format=1500w",
+      "featured": true,
+      "hero": false
+    },
+    {
       "file": "amelia-ai.html",
       "section": "opinions",
       "title": "Beyond the Meme: The Amelia Controversy and the Future of AI",
@@ -20,7 +53,7 @@
       "date": "2026-02-23",
       "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1771879434912-S3LE0G97FL15PBJNJZON/IMG_5680.jpeg",
       "featured": true,
-      "hero": true
+      "hero": false
     },
     {
       "file": "think-sweet.html",
@@ -41,7 +74,7 @@
       "author": "By Nathan Kohl",
       "date": "2026-04-14",
       "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776195115546-FA8ND82RR3EDILOEPYAR/Screenshot+2026-04-14+153147.png",
-      "featured": true,
+      "featured": false,
       "hero": false
     },
     {
