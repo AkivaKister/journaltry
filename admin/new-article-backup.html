@@ -167,7 +167,7 @@ pre.output-code { background: #1a2828; color: #a8d8d4; font-size: 0.75rem; line-
 
       <div class="field">
         <label>Headline *</label>
-        <input type="text" id="headline" placeholder="e.g. The Rise of Bitcoin and Its Peak" />
+        <input type="text" id="title" placeholder="e.g. The Rise of Bitcoin and Its Peak" />
       </div>
 
       <div class="field">
@@ -182,7 +182,7 @@ pre.output-code { background: #1a2828; color: #a8d8d4; font-size: 0.75rem; line-
 
       <div class="field">
         <label>Hero Image URL *</label>
-        <input type="url" id="img" placeholder="https://…" />
+        <input type="url" id="img" placeholder="https://…" oninput="previewImg(this.value)" />
         <div class="hint">Paste any image URL — Squarespace CDN, Unsplash, etc.</div>
         <img id="img-preview" class="img-preview" />
         <div id="img-placeholder" class="img-placeholder">Image preview will appear here</div>
@@ -190,7 +190,7 @@ pre.output-code { background: #1a2828; color: #a8d8d4; font-size: 0.75rem; line-
 
       <div class="field">
         <label>Filename *</label>
-        <input type="text" id="filename" placeholder="e.g. my-article-title" />
+        <input type="text" id="filename" placeholder="e.g. my-article-title" oninput="sanitizeFilename(this)" />
         <div class="hint">Lowercase, hyphens only, no spaces. File will save as <strong id="filename-display">my-article-title.html</strong></div>
       </div>
 
@@ -201,7 +201,7 @@ pre.output-code { background: #1a2828; color: #a8d8d4; font-size: 0.75rem; line-
           <div class="tab" onclick="switchTab('preview')">Preview</div>
         </div>
         <div id="tab-write" class="tab-panel active">
-          <textarea id="body" rows="12" placeholder="Paste or type your article here. Separate paragraphs with a blank line.&#10;&#10;Like this paragraph.&#10;&#10;And this paragraph."></textarea>
+          <textarea id="body" rows="12" placeholder="Paste or type your article here. Separate paragraphs with a blank line.&#10;&#10;Like this paragraph.&#10;&#10;And this paragraph." oninput="updatePreview()"></textarea>
           <div class="hint">Separate paragraphs with a blank line. Bold: **text** &nbsp; Italic: _text_</div>
         </div>
         <div id="tab-preview" class="tab-panel">
@@ -408,7 +408,7 @@ function toggleDisclaimer() {
 // ── Live preview sync ─────────────────────────────────────────────────────────
 function syncPreview() {
   const section  = $('section').value;
-  const headline = $('headline').value || 'Your headline will appear here';
+  const title    = $('title').value  || 'Your headline will appear here';
   const dek      = $('dek').value    || 'Your subheadline will appear here.';
   const author   = $('author').value || 'By Author';
   const date     = $('date').value   ? formatDate($('date').value) : 'Date';
@@ -417,7 +417,7 @@ function syncPreview() {
 
   $('ap-badge').className = `preview-badge ${badge}`;
   $('ap-badge').textContent = label;
-  $('ap-title').textContent = headline;
+  $('ap-title').textContent = title;
   $('ap-dek').textContent   = dek;
   $('ap-meta').textContent  = `${author} · ${date} · ${label}`;
 
@@ -441,7 +441,7 @@ function updateCardSnippet() {
   const section  = $('section').value;
   const label    = SECTION_LABELS[section];
   const badge    = SECTION_BADGES[section];
-  const headline = $('headline').value || 'Article Title';
+  const title    = $('title').value  || 'Article Title';
   const dek      = $('dek').value    || '';
   const author   = $('author').value || '';
   const date     = formatDate($('date').value);
@@ -453,9 +453,9 @@ function updateCardSnippet() {
   // Card HTML snippet
   const snippet = `<article class="article-card">
   <a href="../../articles/${file}">
-    <img src="${img}" alt="${escapeHtml(headline)}" />
+    <img src="${img}" alt="${escapeHtml(title)}" />
     <div class="badge ${badge}">${label}</div>
-    <h2>${escapeHtml(headline)}</h2>
+    <h2>${escapeHtml(title)}</h2>
     <p>${escapeHtml(dek)}</p>
     <span class="card-meta">${escapeHtml(meta)}</span>
   </a>
@@ -466,7 +466,7 @@ function updateCardSnippet() {
   const jsonEntry = {
     file,
     section,
-    title: headline,
+    title: title,
     dek:   dek,
     author: author,
     date:  dateIso,
@@ -486,7 +486,7 @@ function generateAndDownload() {
   const section   = $('section').value;
   const label     = SECTION_LABELS[section];
   const badge     = SECTION_BADGES[section];
-  const title     = $('headline').value.trim();
+  const title     = $('title').value.trim();
   const dek       = $('dek').value.trim();
   const author    = $('author').value.trim();
   const dateVal   = $('date').value;
@@ -588,7 +588,7 @@ function copyOutput(id, btnId) {
 
 function clearForm() {
   if (!confirm('Clear all fields?')) return;
-  ['headline','dek','author','date','img','body','filename','prev-title','prev-file','next-title','next-file','disclaimer'].forEach(id => $(id).value = '');
+  ['title','dek','author','date','img','body','filename','prev-title','prev-file','next-title','next-file','disclaimer'].forEach(id => $(id).value = '');
   $('section').value = 'opinions';
   $('has-disclaimer').checked = false;
   $('disclaimer').style.display = 'none';
@@ -597,108 +597,16 @@ function clearForm() {
   $('filename-display').textContent = 'my-article-title.html';
 }
 
-// ── Wire up all events in one place ──────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
-
-  // Set today as default date
-  $('date').value = new Date().toISOString().split('T')[0];
-
-  // All fields that should trigger a full sync (preview card + snippets)
-  const syncFields = ['headline', 'dek', 'author', 'date', 'section'];
-  syncFields.forEach(id => {
-    const el = $(id);
-    if (el) {
-      el.addEventListener('input',  syncAll);
-      el.addEventListener('change', syncAll);
-    }
-  });
-
-  // Image field: also run the image preview
-  $('img').addEventListener('input', () => {
-    previewImg($('img').value);
-    syncAll();
-  });
-
-  // Filename field: sanitize then sync
-  $('filename').addEventListener('input', () => {
-    const el = $('filename');
-    const clean = el.value
-      .toLowerCase()
-      .replace(/[^a-z0-9\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-');
-    el.value = clean;
-    $('filename-display').textContent = (clean || 'my-article-title') + '.html';
-    updateSnippets();
-  });
-
-  // Body: update write preview only
-  $('body').addEventListener('input', updatePreview);
-
-  // Run initial sync
-  syncAll();
+// ── Wire up live sync ─────────────────────────────────────────────────────────
+['title','dek','author','date','img','section'].forEach(id => {
+  $(id).addEventListener('input', syncPreview);
+  $(id).addEventListener('change', syncPreview);
 });
+$('filename').addEventListener('input', updateCardSnippet);
 
-// syncAll = update the live preview card + both output snippets
-function syncAll() {
-  const section = $('section').value;
-  const headline = $('headline').value || 'Your headline will appear here';
-  const dek      = $('dek').value      || 'Your subheadline will appear here.';
-  const author   = $('author').value   || 'By Author';
-  const date     = $('date').value     ? formatDate($('date').value) : 'Date';
-  const label    = SECTION_LABELS[section];
-  const badge    = SECTION_BADGES[section];
-
-  // Update live preview card
-  $('ap-badge').className  = `preview-badge ${badge}`;
-  $('ap-badge').textContent = label;
-  $('ap-title').textContent = headline;
-  $('ap-dek').textContent   = dek;
-  $('ap-meta').textContent  = `${author} · ${date} · ${label}`;
-
-  updateSnippets();
-}
-
-// updateSnippets = regenerate the card HTML + JSON output panels
-function updateSnippets() {
-  const section  = $('section').value;
-  const label    = SECTION_LABELS[section];
-  const badge    = SECTION_BADGES[section];
-  const headline = $('headline').value || 'Article Title';
-  const dek      = $('dek').value      || '';
-  const author   = $('author').value   || '';
-  const date     = formatDate($('date').value);
-  const dateIso  = $('date').value     || new Date().toISOString().split('T')[0];
-  const img      = $('img').value      || '';
-  const file     = ($('filename').value || 'article') + '.html';
-  const meta     = [author, date].filter(Boolean).join(' · ');
-
-  // Card HTML snippet
-  $('card-output').textContent =
-`<article class="article-card">
-  <a href="../../articles/${file}">
-    <img src="${img}" alt="${escapeHtml(headline)}" />
-    <div class="badge ${badge}">${label}</div>
-    <h2>${escapeHtml(headline)}</h2>
-    <p>${escapeHtml(dek)}</p>
-    <span class="card-meta">${escapeHtml(meta)}</span>
-  </a>
-</article>`;
-
-  // JSON entry
-  const entry = {
-    file,
-    section,
-    title:    headline,
-    dek:      dek,
-    author:   author,
-    date:     dateIso,
-    img:      img,
-    featured: false,
-    hero:     false,
-  };
-  $('json-output').textContent = JSON.stringify(entry, null, 2) + ',';
-}
+// Set today as default date
+$('date').value = new Date().toISOString().split('T')[0];
+syncPreview();
 </script>
 </body>
 </html>
