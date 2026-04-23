@@ -2,6 +2,17 @@
   "articles": [
     {
       "file": "jobs-ai.html",
+      "section": "markets",
+      "title": "Why We Still Believe in Gold",
+      "dek": "The Psychology Behind America’s Oldest Store of Wealth",
+      "author": "Amalia Chalamish",
+      "date": "2026-04-23",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776817966761-D9YUUWQAGUFOO25A6POW/QUHUODGKVZNENIA2FPYDZNCPE4.jpg?format=2500w",
+      "featured": true,
+      "hero": true
+    },
+    {
+      "file": "jobs-ai.html",
       "section": "opinions",
       "title": "Nothing After Graduation: The New Reality for Young Workers",
       "dek": "The erosion of the entry-level job market",
@@ -20,7 +31,7 @@
       "date": "2026-23-23",
       "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776821442834-IDKFWBJ0RQ2XC96Y50IU/Dan%2BArielypng.png.webp?format=1500w",
       "featured": true,
-      "hero": true
+      "hero": false
     },
     {
       "file": "lihi-lapid.html",
