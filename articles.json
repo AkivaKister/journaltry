@@ -1,6 +1,16 @@
 {
   "articles": [
     {
+      "file": "unpackeds-message.html",
+      "section": "opinions",
+      "title": "Know Your Story",
+      "dek": "Unpacked’s Message for the Youth of Tomorrow",
+      "author": "By Lihi Maine and Leah Barzideh",
+      "date": "2026-04-23",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776616714839-1Z0W9EYM5JSMNN7IYCJP/unpacked_for_educators_logo.jpeg?format=1500w",
+      "featured": true,
+      "hero": true
+    {
       "file": "amelia-ai.html",
       "section": "opinions",
       "title": "Beyond the Meme: The Amelia Controversy and the Future of AI",
@@ -20,7 +30,7 @@
       "date": "2026-02-23",
       "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1771879434912-S3LE0G97FL15PBJNJZON/IMG_5680.jpeg",
       "featured": true,
-      "hero": true
+      "hero": false
     },
     {
       "file": "think-sweet.html",
