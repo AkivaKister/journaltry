@@ -1,6 +1,17 @@
 {
   "articles": [
     {
+      "file": "dan-advice.html",
+      "section": "markets",
+      "title": "Dan Ariely Has Proof Your Brain Is Lying to You About Money",
+      "dek": "You are the greatest asset you have",
+      "author": "By Deborah Noorani",
+      "date": "2026-23-23",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776821442834-IDKFWBJ0RQ2XC96Y50IU/Dan%2BArielypng.png.webp?format=1500w",
+      "featured": true,
+      "hero": false
+    },
+    {
       "file": "lihi-lapid.html",
       "section": "opinions",
       "title": "Lihi Lapid and the Case for Slower, More Human Writing",
