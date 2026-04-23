@@ -1,6 +1,17 @@
 {
   "articles": [
     {
+      "file": "lihi-lapid.html",
+      "section": "opinions",
+      "title": "Lihi Lapid and the Case for Slower, More Human Writing",
+      "dek": "Human emotion, empathy, and connection through the eyes of Mrs. Lapid",
+      "author": "By Lihi Maine",
+      "date": "2026-04-23",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776615449453-F46IUH9N44E9FP0OL5KY/Lihi_Lapid.jpeg?format=2500w",
+      "featured": true,
+      "hero": true
+    },
+    {
       "file": "unpackeds-message.html",
       "section": "opinions",
       "title": "Know Your Story",
@@ -9,7 +20,7 @@
       "date": "2026-04-23",
       "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776616714839-1Z0W9EYM5JSMNN7IYCJP/unpacked_for_educators_logo.jpeg?format=1500w",
       "featured": true,
-      "hero": true
+      "hero": false
     },
     {
       "file": "amelia-ai.html",
