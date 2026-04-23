@@ -1,6 +1,17 @@
 {
   "articles": [
     {
+      "file": "jobs-ai.html",
+      "section": "opinions",
+      "title": "Nothing After Graduation: The New Reality for Young Workers",
+      "dek": "The erosion of the entry-level job market",
+      "author": "Rafaela Shpigelman",
+      "date": "2026-04-21",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776818715297-RR89LLE9QGS2WE92UH1F/102192661-177704055.jpg?format=2500w",
+      "featured": false,
+      "hero": false
+    },
+    {
       "file": "dan-advice.html",
       "section": "markets",
       "title": "Dan Ariely Has Proof Your Brain Is Lying to You About Money",
