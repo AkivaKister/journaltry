@@ -9,7 +9,7 @@
       "date": "2026-02-23",
       "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1771875863273-BO0Y4DUQ2NS66UHB7QHJ/ai-girl-2.jpg",
       "featured": true,
-      "hero": true
+      "hero": false
     },
     {
       "file": "synagogue-fire.html",
@@ -20,7 +20,7 @@
       "date": "2026-02-23",
       "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1771879434912-S3LE0G97FL15PBJNJZON/IMG_5680.jpeg",
       "featured": true,
-      "hero": false
+      "hero": true
     },
     {
       "file": "think-sweet.html",
