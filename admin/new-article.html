@@ -352,7 +352,7 @@ function sanitizeFilename(input) {
     .replace(/-+/g, '-');
   input.value = clean;
   $('filename-display').textContent = (clean || 'my-article-title') + '.html';
-  updateCardSnippet();
+  updateSnippets();
 }
 
 function previewImg(url) {
@@ -405,25 +405,6 @@ function toggleDisclaimer() {
   $('disclaimer').style.display = $('has-disclaimer').checked ? 'block' : 'none';
 }
 
-// ── Live preview sync ─────────────────────────────────────────────────────────
-function syncPreview() {
-  const section  = $('section').value;
-  const headline = $('headline').value || 'Your headline will appear here';
-  const dek      = $('dek').value    || 'Your subheadline will appear here.';
-  const author   = $('author').value || 'By Author';
-  const date     = $('date').value   ? formatDate($('date').value) : 'Date';
-  const label    = SECTION_LABELS[section];
-  const badge    = SECTION_BADGES[section];
-
-  $('ap-badge').className = `preview-badge ${badge}`;
-  $('ap-badge').textContent = label;
-  $('ap-title').textContent = headline;
-  $('ap-dek').textContent   = dek;
-  $('ap-meta').textContent  = `${author} · ${date} · ${label}`;
-
-  updateCardSnippet();
-}
-
 function formatDate(iso) {
   if (!iso) return '';
   const d = new Date(iso + 'T12:00:00');
@@ -434,47 +415,6 @@ function formatDateLong(iso) {
   if (!iso) return '';
   const d = new Date(iso + 'T12:00:00');
   return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-}
-
-// ── Card snippet + JSON entry ─────────────────────────────────────────────────
-function updateCardSnippet() {
-  const section  = $('section').value;
-  const label    = SECTION_LABELS[section];
-  const badge    = SECTION_BADGES[section];
-  const headline = $('headline').value || 'Article Title';
-  const dek      = $('dek').value    || '';
-  const author   = $('author').value || '';
-  const date     = formatDate($('date').value);
-  const dateIso  = $('date').value   || new Date().toISOString().split('T')[0];
-  const img      = $('img').value    || '';
-  const file     = ($('filename').value || 'article') + '.html';
-  const meta     = [author, date].filter(Boolean).join(' · ');
-
-  // Card HTML snippet
-  const snippet = `<article class="article-card">
-  <a href="../../articles/${file}">
-    <img src="${img}" alt="${escapeHtml(headline)}" />
-    <div class="badge ${badge}">${label}</div>
-    <h2>${escapeHtml(headline)}</h2>
-    <p>${escapeHtml(dek)}</p>
-    <span class="card-meta">${escapeHtml(meta)}</span>
-  </a>
-</article>`;
-  $('card-output').textContent = snippet;
-
-  // JSON entry for articles.json
-  const jsonEntry = {
-    file,
-    section,
-    title: headline,
-    dek:   dek,
-    author: author,
-    date:  dateIso,
-    img:   img,
-    featured: false,
-    hero:     false
-  };
-  $('json-output').textContent = JSON.stringify(jsonEntry, null, 2) + ',';
 }
 
 function escapeHtml(s) {
@@ -573,7 +513,7 @@ function generateAndDownload() {
   URL.revokeObjectURL(a.href);
 
   showToast(`✓ Downloaded ${filename}`);
-  updateCardSnippet();
+  updateSnippets();
 }
 
 function copyOutput(id, btnId) {
@@ -593,7 +533,7 @@ function clearForm() {
   $('has-disclaimer').checked = false;
   $('disclaimer').style.display = 'none';
   previewImg('');
-  syncPreview();
+  syncAll();
   $('filename-display').textContent = 'my-article-title.html';
 }
 
