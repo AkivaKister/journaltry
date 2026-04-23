@@ -9,7 +9,7 @@
       "date": "2026-23-23",
       "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776821442834-IDKFWBJ0RQ2XC96Y50IU/Dan%2BArielypng.png.webp?format=1500w",
       "featured": true,
-      "hero": false
+      "hero": true
     },
     {
       "file": "lihi-lapid.html",
@@ -20,7 +20,7 @@
       "date": "2026-04-23",
       "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776615449453-F46IUH9N44E9FP0OL5KY/Lihi_Lapid.jpeg?format=2500w",
       "featured": true,
-      "hero": true
+      "hero": false
     },
     {
       "file": "unpackeds-message.html",
