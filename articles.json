@@ -1,7 +1,18 @@
 {
   "articles": [
+     {
+      "file": "blue-collar.html",
+      "section": "markets",
+      "title": "The Blue-Collar Boom Nobody Saw Coming",
+      "dek": "AI caused unemployment? Not quite",
+      "author": "Ahuva Chaitovsky",
+      "date": "2026-03-27",
+      "img": "https://images.squarespace-cdn.com/content/v1/68faa588ef08734819b712e2/1776820697061-UI12LGC7F8X0VHKL1LIF/blue-collar-worker.jpeg?format=2500w",
+      "featured": true,
+      "hero": false
+    }, 
     {
-      "file": "jobs-ai.html",
+      "file": "gold.html",
       "section": "markets",
       "title": "Why We Still Believe in Gold",
       "dek": "The Psychology Behind America’s Oldest Store of Wealth",
