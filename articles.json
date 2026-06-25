@@ -1,6 +1,17 @@
 {
   "articles": [
     {
+      "file": "grade-inflation.html",
+      "section": "opinions",
+      "title": "The Effort Gap",
+      "dek": "Students are more capable than they think - and it's time they started acting like it.",
+      "author": "Benny Isak",
+      "date": "2026-06-25",
+      "img": "https://media.istockphoto.com/id/521611936/photo/student-studying-sleeping-on-books-tired-girl-read-book-library.jpg?s=612x612&w=0&k=20&c=_hrHE-ktKc_c3RSe1wKxVlPrdpsllJkVQ9y_kgw4WMA=",
+      "featured": false,
+      "hero": false
+    },
+    {
       "file": "cbcd.html",
       "section": "markets",
       "title": "Who Controls The Money?",
