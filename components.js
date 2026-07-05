@@ -112,7 +112,7 @@ function renderHeader(root) {
       <div class="masthead">
         <div class="masthead-meta">
           <span>Student-Led · Global Finance &amp; Ideas</span>
-          <span class="masthead-date">May 2026</span>
+          <span class="masthead-date">July 2026</span>
         </div>
         <a href="${root}index.html" style="text-decoration:none">
           <div class="masthead-logo">
