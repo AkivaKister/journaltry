@@ -2,7 +2,7 @@
 // Live quotes come from Finnhub (stocks/ETFs) and Coinbase (crypto).
 // Both send CORS headers, so no proxy is involved.
 // Get a free key at https://finnhub.io/register and paste it below.
-const FINNHUB_KEY = 'YOUR_FINNHUB_KEY_HERE';
+const FINNHUB_KEY = 'da3pla1r01qual4r8ecgda3pla1r01qual4r8ed0';
 
 // US stocks and ETFs — covered by the Finnhub free tier.
 const TICKER_SYMBOLS = [
