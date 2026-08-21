@@ -1,6 +1,17 @@
 {
   "articles": [
     {
+      "file": "golden-street-kids-money-money.html",
+      "section": "business",
+      "title": "High Schooler and Wall Street",
+      "dek": "The Golden Age is NOW",
+      "author": "Sammy Obadiah",
+      "date": "2026-08-20",
+      "img": "https://media.istockphoto.com/id/1467877704/photo/a-friendly-robot-always-at-your-disposal.jpg?s=612x612&w=0&k=20&c=wP6w5BTwVzenXaesOEeAmNy9Hyi8Gqo-s2yEPYrCsz8=",
+      "featured": false,
+      "hero": false
+    },
+    {
       "file": "healthcare-costs.html",
       "section": "opinions",
       "title": "The Cost of Health",
